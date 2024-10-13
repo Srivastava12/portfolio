@@ -58,7 +58,7 @@
 }
 /* Basic Styling */
 body {
-  color: black;
+  color: blue;
   background-image: url('bgImage.jpeg');
   background-size: cover;
   background-attachment: fixed;
@@ -69,9 +69,9 @@ body {
 }
 
 h2 {
-  color: black;
+  color: blue;
 }
 
 p, ul {
-  color: black;
+  color: blue;
 }
