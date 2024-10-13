@@ -59,7 +59,7 @@
 /* Basic Styling */
 body {
   color: #ffffff;
-  background-image: url('https://github.com/Srivastava12/portfolio/blob/main/bgImage.jpeg');
+  background-image: url('bgImage.jpeg');
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
