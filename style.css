@@ -1,0 +1,77 @@
+/* Background Section */
+#intro {
+  margin-top: 25px;
+}
+.profile-img {
+  width: 226px;
+  height: 226px;
+  border: 3px solid #ffffff;
+  margin-top: 20px;
+  animation: fadeInDown 1.5s;
+}
+
+.animated-title {
+  animation: fadeInUp 2s;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.project {
+  animation: fadeIn 1.5s ease-in-out;
+  margin: 20px 0;
+}
+
+/* Keyframe animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Basic Styling */
+body {
+  color: #ffffff;
+  background-image: url('C:/Users/Shubham Kumar/Desktop/Portfolio/bgImage.jpeg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+h2 {
+  color: #ffffff;
+}
+
+p, ul {
+  color: #ffffff;
+}
