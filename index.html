@@ -50,7 +50,7 @@
   }
 
   /* ---------- layout shell ---------- */
-  .wrap{max-width:1120px; margin:0 auto; padding:0; position:relative; z-index:1;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px; position:relative; z-index:1;}
   section{position:relative; z-index:1;}
 
   /* ---------- nav ---------- */
@@ -79,7 +79,7 @@
 
   /* ---------- hero ---------- */
   .hero{
-    padding:40px 0 20px;
+    padding:40px 0 40px;
     display:grid;
     grid-template-columns:50% 1fr;
     gap:64px;
@@ -132,6 +132,24 @@
   }
   .photo-badge .d{width:6px;height:6px;border-radius:50%;background:var(--pulse); box-shadow:0 0 8px var(--pulse); animation:blink 2s infinite;}
 
+  .hero-left{display:flex; flex-direction:column; align-items:center;}
+  .social-row{
+    display:flex; align-items:center; justify-content:center;
+    gap:40px; margin-top:28px;
+  }
+  .social-row a{
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--line); background:var(--surface);
+    color:var(--text-dim); transition:all .25s;
+  }
+  .social-row a svg{width:17px; height:17px; fill:currentColor;}
+  .social-row a:hover{
+    color:var(--pulse); border-color:var(--pulse-dim);
+    transform:translateY(-3px);
+    box-shadow:0 8px 18px rgba(51,217,166,0.18);
+  }
+
   .hero-text .eyebrow{
     font-family:'JetBrains Mono',monospace; color:var(--pulse); font-size:0.8rem;
     letter-spacing:0.08em; text-transform:uppercase; display:flex; align-items:center; gap:10px;
@@ -155,7 +173,7 @@
     border:1px solid var(--line); padding:6px 12px; border-radius:30px;
     background:var(--surface);
   }
-  .hero-ctas{display:flex; gap:16px; flex-wrap:wrap;}
+  .hero-ctas{display:flex; gap:16px; flex-wrap:wrap; margin-top:20px;}
   .btn{
     font-family:'JetBrains Mono',monospace; font-size:0.85rem; padding:13px 26px; border-radius:8px;
     display:inline-flex; align-items:center; gap:8px; transition:all .25s; cursor:pointer; border:1px solid transparent;
@@ -279,11 +297,16 @@
   }
   .contact-box h2{font-size:clamp(1.6rem,3.4vw,2.4rem); margin-bottom:14px; position:relative;}
   .contact-box p{color:var(--text-dim); max-width:480px; margin:0 auto 32px; position:relative;}
-  .contact-links{display:flex; gap:16px; justify-content:center; flex-wrap:wrap; position:relative;}
+  .contact-links{display:flex; gap:16px; justify-content:center; flex-wrap:wrap; position:relative; margin-top:20px;}
 
   footer{padding:40px 0; text-align:center; color:var(--text-faint); font-size:0.8rem; font-family:'JetBrains Mono',monospace;}
 
   /* ---------- responsive ---------- */
+  /* tablet */
+  @media (max-width:1024px) and (min-width:601px){
+    .wrap{padding:0 40px;}
+  }
+
   @media (max-width:920px){
     .vitals-grid{grid-template-columns:1fr;}
     .projects-grid{grid-template-columns:1fr;}
@@ -301,7 +324,7 @@
     .hero-ctas{justify-content:center;}
     .stack-line{justify-content:center;}
     .hero-photo{width:230px; height:230px;}
-    section{padding:64px 0;}
+    section{padding:30px 0;}
     .contact-box{padding:44px 24px;}
   }
   @media (max-width:480px){
@@ -312,15 +335,45 @@
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important; transition:none !important;}
   }
+
+  /* ---------- custom cursor ---------- */
+  @media (pointer:fine){
+    body{cursor:none;}
+    a, button, .btn, .chip, .project-card, .info-card, .tl-item{cursor:none;}
+
+    .cursor-dot, .cursor-ring{
+      position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+      border-radius:50%;
+      transform:translate(-50%,-50%);
+    }
+    .cursor-dot{
+      width:7px; height:7px; background:var(--pulse);
+      box-shadow:0 0 10px var(--pulse);
+      transition:opacity .2s, transform .15s;
+    }
+    .cursor-ring{
+      width:34px; height:34px; border:1px solid var(--pulse-dim);
+      transition:width .25s ease, height .25s ease, border-color .25s ease, opacity .2s;
+    }
+    .cursor-ring.hover{
+      width:56px; height:56px; border-color:var(--pulse); background:rgba(51,217,166,0.08);
+    }
+    .cursor-ring.click{transform:translate(-50%,-50%) scale(0.85);}
+    body.cursor-hidden .cursor-dot,
+    body.cursor-hidden .cursor-ring{opacity:0;}
+  }
 </style>
 </head>
 <body>
+
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
 <div class="bg-grid"></div>
 
 <header>
   <nav class="wrap">
-    <div class="logo"><span class="dot"></span>Shubham Kumar</div>
+    <div class="logo"><span class="dot"></span><a href="#contact">Shubham Kumar</a></div>
     <div class="navlinks" id="navlinks">
       <a href="#home">Home</a>
       <a href="#skills">Skills</a>
@@ -335,6 +388,38 @@
 
 <!-- HERO -->
 <section id="home" class="hero wrap">
+  <div class="hero-left">
+    <div class="hero-photo">
+      <div class="ring"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="photo-frame">
+        <!-- Replace src below with your photo path when ready, e.g. src="your-photo.jpg" -->
+        <img id="profileImg" src="./Media.jpg" alt="Shubham Kumar">
+        <div class="photo-placeholder" id="photoPlaceholder">
+          <div class="initials">SK</div>
+          <div class="hint">UPLOAD YOUR PHOTO<br>replace #profileImg src in index.html</div>
+        </div>
+      </div>
+      <div class="photo-badge"><span class="d"></span><a href="tel:+91 9576797180">Available</a></div>
+    </div>
+
+    <div class="social-row">
+      <a href="https://www.instagram.com/_shubham_9576?igsh=YmIzcjM1c3FqNTN6" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77A4.9 4.9 0 0 1 5.45 2.53c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65C4.28 8.68 4.27 9 4.27 12s.01 3.32.06 4.37c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.37s-.01-3.32-.06-4.37c-.04-.87-.18-1.34-.3-1.65a2.73 2.73 0 0 0-.66-1.02 2.73 2.73 0 0 0-1.02-.66c-.31-.12-.78-.26-1.65-.3C14.99 3.81 14.67 3.8 12 3.8zm0 3.06a5.14 5.14 0 1 1 0 10.28 5.14 5.14 0 0 1 0-10.28zm0 1.8a3.34 3.34 0 1 0 0 6.68 3.34 3.34 0 0 0 0-6.68zm5.34-1.99a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/></svg>
+      </a>
+      <a href="https://wa.me/919576797180" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.47 14.38c-.29-.15-1.72-.85-1.98-.95-.27-.1-.46-.15-.66.15-.2.29-.76.94-.93 1.14-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.71-1.6-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.49.1-.19.05-.36-.02-.51-.07-.15-.66-1.58-.9-2.16-.24-.58-.48-.5-.66-.5-.17 0-.36-.02-.56-.02-.19 0-.51.07-.78.36-.27.29-1.02 1-1.02 2.43 0 1.43 1.05 2.81 1.19 3 .15.2 2.06 3.15 5 4.42.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.19-.56-.34zM12.02 2C6.5 2 2.02 6.48 2.02 12c0 1.9.53 3.68 1.44 5.2L2 22l4.94-1.42a9.94 9.94 0 0 0 5.08 1.39c5.52 0 10-4.48 10-10S17.54 2 12.02 2zm0 18.13c-1.7 0-3.28-.5-4.61-1.36l-.33-.2-3.05.87.87-2.98-.21-.34a8.1 8.1 0 0 1-1.24-4.32c0-4.5 3.66-8.16 8.17-8.16 4.5 0 8.16 3.66 8.16 8.16 0 4.51-3.66 8.33-8.16 8.33z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/shubham-srivastava-12a93b216" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.34V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/share/1HJNPmcHHY/" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M13.5 21v-7.85h2.64l.4-3.06h-3.04V8.13c0-.89.25-1.49 1.52-1.49h1.62V3.9c-.28-.04-1.24-.12-2.36-.12-2.34 0-3.94 1.43-3.94 4.04v2.27H7.7v3.06h2.64V21h3.16z"/></svg>
+      </a>
+    </div>
+  </div>
+
   <div class="hero-text">
     <div class="eyebrow"><span class="line"></span>Website Designer · Greater Noida, India</div>
     <h1>Building clean, <span>fast</span> websites<br>for clinics that people <span>trust</span>.</h1>
@@ -349,21 +434,8 @@
       <a href="#contact" class="btn btn-ghost">Get in touch</a>
     </div>
   </div>
-  <div class="hero-photo">
-    <div class="ring"></div>
-    <div class="ring r2"></div>
-    <div class="ring r3"></div>
-    <div class="photo-frame">
-      <!-- Replace src below with your photo path when ready, e.g. src="your-photo.jpg" -->
-      <img id="profileImg" src="./Media.jpg" alt="Shubham Kumar">
-      <div class="photo-placeholder" id="photoPlaceholder">
-        <div class="initials">SK</div>
-        <div class="hint">UPLOAD YOUR PHOTO<br>replace #profileImg src in index.html</div>
-      </div>
-    </div>
-    <div class="photo-badge"><span class="d"></span>available</div>
-  </div>
 </section>
+
 <div class="wrap">
   <div class="pulse-divider">
     <svg viewBox="0 0 1000 46" preserveAspectRatio="none">
@@ -417,6 +489,7 @@
         <div class="tl-date">AUGUST 2025 — PRESENT</div>
         <h3>Website Designer</h3>
         <div class="company">Immwit</div>
+        <div class="company"><b><a href="https://www.immwit.com/">https://www.immwit.com/</a></b></div>
         <ul>
           <li>Manage and update website pages across CMS platforms with a strong focus on content accuracy and best practices.</li>
           <li>Optimize site content and structure to improve performance, visibility, and search rankings.</li>
@@ -427,6 +500,7 @@
         <div class="tl-date">MARCH 2025 — JULY 2025</div>
         <h3>Website Designer</h3>
         <div class="company">Reliqus Consulting</div>
+        <div class="company"><b><a href="https://reliqus.com/">https://reliqus.com/</a></b></div>
         <ul>
           <li>Built and customized WordPress websites using Elementor, Bricks Builder, and WPBakery Page Builder.</li>
           <li>Designed user-friendly, responsive page layouts and supported digital growth initiatives for client websites.</li>
@@ -588,6 +662,40 @@
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); } });
   }, { threshold: 0.15 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // custom cursor
+  if(window.matchMedia('(pointer:fine)').matches){
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = window.innerWidth/2, my = window.innerHeight/2;
+    let rx = mx, ry = my;
+
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
+      document.body.classList.remove('cursor-hidden');
+    });
+    document.addEventListener('mouseleave', () => document.body.classList.add('cursor-hidden'));
+    document.addEventListener('mouseenter', () => document.body.classList.remove('cursor-hidden'));
+
+    function loop(){
+      rx += (mx - rx) * 0.16;
+      ry += (my - ry) * 0.16;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    const hoverTargets = document.querySelectorAll('a, button, .btn, .chip, .project-card, .info-card, .tl-item');
+    hoverTargets.forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+    });
+    document.addEventListener('mousedown', () => ring.classList.add('click'));
+    document.addEventListener('mouseup', () => ring.classList.remove('click'));
+  }
 
   // profile image loader: if src is set and loads, hide placeholder
   const img = document.getElementById('profileImg');
